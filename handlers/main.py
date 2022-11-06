@@ -64,7 +64,7 @@ def send_start_message(message):
                              'Тайный санта - отличный способ сделать приятно не только себе, но и совcесем незнакомому '
                              'человеку!\n'
                              'Продолжи и насладись этим приятным чувством, когда не только тебе дарят подарки, но и ты.',
-                             reply_markup=main.start_keyboard)
+                             reply_markup=start_keyboard)
 
 
 def send_second_message(callback):
