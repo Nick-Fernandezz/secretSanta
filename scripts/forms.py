@@ -137,6 +137,49 @@ def edit_form(callback):
     create_new_form(callback)
 
 
+def send_my_form(callback):
+
+    cursor.execute(f'''SELECT forms.*, students_group.group_name 
+    FROM forms
+    INNER JOIN students_group ON forms.group_user = students_group.id
+    WHERE forms.user_id = {callback.from_user.id}''')
+    form_info = cursor.fetchone()
+
+    form_info_list = {
+        'id': form_info[0],
+        'user_id': form_info[1],
+        'username': form_info[2],
+        'sex': form_info[3],
+        'age': form_info[4],
+        'name': form_info[5],
+        'group_id': form_info[6],
+        'description': form_info[7],
+        'all_group': form_info[9],
+        'local_group': form_info[10],
+        'status_local_group': form_info[11],
+        'group_name': form_info[12]
+    }
+
+    bot.send_message(callback.message.chat.id, f'''
+*Моя анкета*
+@{form_info_list['username']}
+
+ID: {form_info_list['id']}
+
+Пользователь:
+    Имя: {form_info_list['name']} [{form_info_list['user_id']}]
+    Пол: {form_info_list['sex']}
+    Возраст: {form_info_list['age']}
+    Группа: {form_info_list['group_name']} [{form_info_list['group_id']}]
+    Карточка: {form_info_list['description']}
+
+Игра:
+    Участие в глобальной игре: {form_info_list['all_group']}
+    Участие в локальной игре группы: {form_info_list['local_group']}
+    Статус одобрения участия старостой: {form_info_list['status_local_group']}
+    ''',
+                     parse_mode='markdown')
+
 
 bot.register_callback_query_handler(send_name, func=lambda callback: callback.data == 'goto_next_form')
 bot.register_callback_query_handler(send_description, func=lambda callback: 'my_group_' in callback.data)

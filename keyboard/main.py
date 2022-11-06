@@ -23,5 +23,5 @@ start_keyboard.row(start_kb).row(head_kb)
 
 choose_category_keyboard = types.InlineKeyboardMarkup()
 category_all = types.InlineKeyboardButton(text='Все студенты техникума', callback_data='all_students')
-category_only_group = types.InlineKeyboardButton(text='Моя группа',callback_data='go_to_my_group')
+category_only_group = types.InlineKeyboardButton(text='Моя группа', callback_data='go_to_my_group')
 choose_category_keyboard.add(category_all, category_only_group)

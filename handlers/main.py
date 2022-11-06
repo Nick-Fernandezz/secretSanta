@@ -51,6 +51,7 @@ def register_start_message_handlers():
     bot.register_message_handler(send_chat_id, commands=['chat_id'])
     bot.register_message_handler(send_start_message, commands=['start'])
     bot.register_callback_query_handler(forms.send_form, func=lambda callback: callback.data == 'next_start')
+    bot.register_callback_query_handler(forms.send_my_form, func=lambda callback: callback.data == 'my_form_cb')
     bot.register_callback_query_handler(local_group.add_to_local_group, func=lambda callback: callback.data == 'go_to_my_group')
     bot.register_callback_query_handler(all_students.add_to_all_students_category,
                                         func=lambda callback: callback.data == 'all_students')

@@ -103,4 +103,10 @@ def add_phone_head(message):
         admin.send_accept_group(message, user_info[0])
 
 
+def send_status_head_group(callback):
+
+    bot.send_message(callback.message.chat.id, 'Функция пока в разработке.')
+
+
+bot.register_callback_query_handler(send_status_head_group, func=lambda callback: callback.data == 'group_status')
 bot.register_callback_query_handler(add_grope_db, func=lambda callback: callback.data == 'add_grope_to_db')
