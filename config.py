@@ -7,9 +7,9 @@ url_bot = 'https://t.me/SecterSanta_bot'
 admin_chat = '-703410267'
 
 login_db = {
-    'host': '5.23.55.230',
-    'db': 'db',
-    'login': 'postgres',
+    'host': '185.182.111.50',
+    'db': 'santa_db',
+    'login': 'nick',
     'password': 'rPhAsIDS1',
     'port': 5432
 }

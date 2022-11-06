@@ -35,18 +35,18 @@ def check_grope_in_db(message):
                                                  '_Пример_: Василий Пупкин',
                                 parse_mode='markdown')
 
-        bot.register_next_step_handler(send, add_head_name, group_id)
-    else:
-        bot.send_message(message.chat.id, 'Ваша группа уже есть в реестре.\n'
-                                          'Вы можете проверить статус своей группы.',
-                         reply_markup=head_group.status_group_keyboard)
-
         cursor.execute(f'''INSERT INTO students_group(group_name, head) VALUES ('{group}', {message.from_user.id})''')
         db.commit()
 
         cursor.execute(f'''SELECT id FROM students_group WHERE head = {message.from_user.id}''')
         group_id = cursor.fetchone()[0]
 
+        bot.register_next_step_handler(send, add_head_name, group_id)
+
+    else:
+        bot.send_message(message.chat.id, 'Ваша группа уже есть в реестре.\n'
+                                          'Вы можете проверить статус своей группы.',
+                         reply_markup=head_group.status_group_keyboard)
 
 
 def add_head_name(message, group):
