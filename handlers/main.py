@@ -55,9 +55,7 @@ def send_start_message(message):
             start_keyboard.row(main.start_kb).row(main.head_kb)
 
             cursor.execute(f'''SELECT description FROM forms WHERE user_id = {message.from_user.id}''')
-            desc = cursor.fetchone()
-
-            print(desc)
+            desc = cursor.fetchone()[0]
 
             if desc is not None:
                 start_keyboard.row(main.my_form_kb)
