@@ -15,10 +15,10 @@ my_form_kb = types.InlineKeyboardButton(text='Моя анкета', callback_dat
 edit_form_kb = types.InlineKeyboardButton(text='Изменить анкету', callback_data='edit_form_cb')
 create_form_kb = types.InlineKeyboardButton(text='Создать анкету', callback_data='create_form_cb')
 
-start_keyboard = types.InlineKeyboardMarkup()
+
 start_kb = types.InlineKeyboardButton(text='Продолжить', callback_data='next_start')
 head_kb = types.InlineKeyboardButton(text='Я староста', callback_data='im_head_group')
-start_keyboard.row(start_kb).row(head_kb).row(my_form_kb)
+
 
 
 choose_category_keyboard = types.InlineKeyboardMarkup()
