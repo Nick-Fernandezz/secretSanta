@@ -55,16 +55,23 @@ def send_start_message(message):
             start_keyboard.row(main.start_kb).row(main.head_kb)
 
             cursor.execute(f'''SELECT description FROM forms WHERE user_id = {message.from_user.id}''')
-            desc = cursor.fetchone()[0]
+            desc = cursor.fetchone()
+            try:
+                if desc[0] is not None:
+                    start_keyboard.row(main.my_form_kb)
 
-            if desc is not None:
-                start_keyboard.row(main.my_form_kb)
+                bot.send_message(message.chat.id,
+                                 'Тайный санта - отличный способ сделать приятно не только себе, но и совcесем незнакомому '
+                                 'человеку!\n'
+                                 'Продолжи и насладись этим приятным чувством, когда не только тебе дарят подарки, но и ты.',
+                                 reply_markup=start_keyboard)
+            except:
+                bot.send_message(message.chat.id,
+                                 'Тайный санта - отличный способ сделать приятно не только себе, но и совcесем незнакомому '
+                                 'человеку!\n'
+                                 'Продолжи и насладись этим приятным чувством, когда не только тебе дарят подарки, но и ты.',
+                                 reply_markup=start_keyboard)
 
-            bot.send_message(message.chat.id,
-                             'Тайный санта - отличный способ сделать приятно не только себе, но и совcесем незнакомому '
-                             'человеку!\n'
-                             'Продолжи и насладись этим приятным чувством, когда не только тебе дарят подарки, но и ты.',
-                             reply_markup=start_keyboard)
 
 
 def send_second_message(callback):
