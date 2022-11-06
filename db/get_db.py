@@ -3,7 +3,7 @@ from colorama import Fore
 from .main_db import cursor, db
 
 
-def create_new_user(message) -> None:
+def create_new_user(message):
 
     cursor.execute(f'SELECT * FROM users WHERE user_id={message.from_user.id}')
     user_inf = cursor.fetchone()
@@ -21,7 +21,7 @@ def create_new_user(message) -> None:
         WHERE user_id = {message.from_user.id}""")
 
 
-def check_user_form(user_id: str | int) -> bool:
+def check_user_form(user_id):
 
     cursor.execute(f"""SELECT * FROM forms WHERE user_id = {int(user_id)}""")
 
@@ -33,7 +33,7 @@ def check_user_form(user_id: str | int) -> bool:
         return True
 
 
-def get_user_form(user_id: int | str):
+def get_user_form(user_id):
 
     user = cursor.execute(f"""SELECT user_id, username, sex, age, name_user, FROM forms WHERE user_id={user_id}""")
     form_user_info = user.fetchall()
