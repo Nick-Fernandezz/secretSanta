@@ -19,7 +19,7 @@ def end_form(message):
         db.commit()
 
         bot.send_message(message.chat.id, 'Анкета создана. '
-                                          'Теперь выбери где ты категорию, в которой ты будешь участвовать',
+                                          'Теперь выбери категорию, в которой ты будешь участвовать',
                          reply_markup=main.choose_category_keyboard)
 
 
@@ -31,7 +31,7 @@ def send_description(callback):
 
     send = bot.send_message(callback.message.chat.id,
                      'Осталось только написать описание.\n'
-                     'Раскажи здесь о себе, своих интересах, увлечениях, пожеланиях.\n'
+                     'Расскажи здесь о себе, своих интересах, увлечениях, пожеланиях.\n'
                      'Постарайся уместить все в 400 символов.')
     bot.register_next_step_handler(send, end_form)
 
@@ -61,7 +61,7 @@ def send_group(message):
                 groups_keyboard.add(group_kb)
 
             bot.send_message(message.chat.id, 'Выбери свою группу.\n'
-                                              'Если твоей группы нет в списке, значит староста не внес ее в реестр.'
+                                              'Если твоей группы нет в списке, значит староста не внес ее в реестр. '
                                               'Обратись к старосте.', reply_markup=groups_keyboard)
 
     except ValueError:
@@ -126,9 +126,9 @@ def create_new_form(callback):
 
     bot.send_message(callback.message.chat.id, 'Отлично, можем приступить к созданию анкеты для игры!')
     bot.send_message(callback.message.chat.id, 'Нажимая кнопку "Продолжить", вы соглашаетесь с обработкой '
-                                               'предоставляемы данных '
-                                               'и передачей их другим участникам игры для коммуникации: '
-                                               'Имя, пол, возраст',
+                                               'предоставлением данных '
+                                               'и передачей их другим участникам игры для коммуникации, а именно '
+                                               'имя, пол, возраст',
                      reply_markup=form.go_to_next_keyboard)
 
 
