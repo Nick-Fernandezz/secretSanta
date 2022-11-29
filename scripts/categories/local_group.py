@@ -23,9 +23,16 @@ def add_to_local_group(callback):
         FROM forms
         INNER JOIN heads_groups ON forms.group_user = heads_groups.group_name 
         WHERE forms.user_id = {callback.from_user.id}''')
-
+        # cursor.execute(f'''SELECT user_id, username, sex, age, name_user, group_user, local_groups
+        # FROM forms
+        # WHERE user_id = {callback.from_user.id}''')
+        # print(type(callback.from_user.id))
+        # info_user = cursor.fetchone()
+        # cursor.execute(f'''SELECT user_id, username_head FROM heads_groups WHERE group_name = {info_user[5]}''')
+        # info_head = cursor.fetchone()
+        # print(info_user[5])
+        # print(info_head)
         info = cursor.fetchone()
-
         info_list = {
             'form_user_id': info[0],
             'username': info[1],

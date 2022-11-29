@@ -12,7 +12,7 @@ def end_form(message):
     description = message.text
 
     if len(description) > 400:
-        send = bot.send_message(message.chat.id, 'Твой текст более 400 символов. Сократи его и отправь заного.')
+        send = bot.send_message(message.chat.id, 'Твой текст более 400 символов. Сократи его и отправь заново.')
         bot.register_next_step_handler(send, end_form)
     else:
         cursor.execute(f'''UPDATE forms SET description = '{description}' WHERE user_id = {message.from_user.id}''')
@@ -31,7 +31,7 @@ def send_description(callback):
 
     send = bot.send_message(callback.message.chat.id,
                      'Осталось только написать описание.\n'
-                     'Раскажи здесь о себе, своих интересах, услечениях, пожеланиях.\n'
+                     'Раскажи здесь о себе, своих интересах, увлечениях, пожеланиях.\n'
                      'Постарайся уместить все в 400 символов.')
     bot.register_next_step_handler(send, end_form)
 
@@ -39,9 +39,9 @@ def send_description(callback):
 def send_group(message):
     try:
         age = int(message.text)
-        if 100 <= age < 0:
+        if age > 100 or age < 0:
             bot.send_message(message.chat.id, 'Вы указали слишком большой или отрицательный возраст. Создайте анкету '
-                                              'заного, '
+                                              'заново, '
                                               'заполнив ее правильно. \nЕсли считаете, что '
                                               'заполнили все правильно, свяжитесь с администратором:\n'
                                               'https://t.me/nickishhh')
@@ -100,7 +100,7 @@ def send_sex(message):
         cursor.execute(f'''DELETE FROM forms WHERE user_id = {message.from_user.id}''')
         db.commit()
 
-        bot.send_message(message.chat.id, 'Максимальная блина имени - 100 символов. Начни заного.',
+        bot.send_message(message.chat.id, 'Максимальная длина имени - 100 символов. Начни заново.',
                          reply_markup=form.go_to_next_keyboard)
 
 
@@ -140,7 +140,7 @@ def send_form(callback):
         form_keyboard.add(main.edit_form_kb, main.my_form_kb)
 
         bot.send_message(callback.message.chat.id, 'У тебя уже есть созданная анкета. '
-                                                   'Ты можешь посмотреть ее или заполнить заного.',
+                                                   'Ты можешь посмотреть ее или заполнить заново.',
                          reply_markup=form_keyboard)
     else:
 
