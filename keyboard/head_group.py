@@ -8,3 +8,7 @@ get_group_status = types.InlineKeyboardButton(text='Статус моей гру
 
 head_keyboard.add(add_group_kb, get_group_status)
 status_group_keyboard.add(get_group_status)
+
+list_users_keyboard = types.InlineKeyboardMarkup()
+list_users_kb = types.InlineKeyboardButton(text='Список участников', callback_data='list_users')
+list_users_keyboard.add(list_users_kb)

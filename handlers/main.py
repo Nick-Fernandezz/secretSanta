@@ -14,13 +14,15 @@ def send_chat_id(message):
 
 
 def send_dev_message_send(message):
+    if message.from_user.id == 758055066:
+        cursor.execute('''SELECT user_id FROM users''')
+        users = cursor.fetchall()
 
-    cursor.execute('''SELECT user_id FROM users''')
-    users = cursor.fetchall()
+        for user in users:
 
-    for user in users:
-
-        bot.send_message(user, f'Сообщение от администратора!\n\n{message.text}')
+            bot.send_message(user, f'Сообщение от администратора!\n\n{message.text}')
+    else:
+        bot.send_message(message.chat.id, 'У вас недостаточно прав.')
 
 
 def send_dev_message_start(message):
