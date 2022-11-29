@@ -39,19 +39,27 @@ def send_description(callback):
 def send_group(message):
     try:
         age = int(message.text)
-        cursor.execute(f"""UPDATE forms SET age = {age} WHERE user_id = {message.from_user.id}""")
-        db.commit()
+        if age > 100:
+            bot.send_message(message.chat.id, 'Вы указали слишком большой возраст. Создайте анкету заного, '
+                                              'заполнив ее правильно. \nЕсли считаете, что '
+                                              'заполнили все правильно, свяжитесь с администратором:\n'
+                                              'https://t.me/nickishhh')
+            cursor.execute(f'''DELETE FROM TABLE forms WHERE user_id = {message.from_user.id}''')
+            db.commit()
+        else:
+            cursor.execute(f"""UPDATE forms SET age = {age} WHERE user_id = {message.from_user.id}""")
+            db.commit()
 
-        cursor.execute('''SELECT group_name, id FROM students_group WHERE status = True''')
-        groups = cursor.fetchall()
+            cursor.execute('''SELECT group_name, id FROM students_group WHERE status = True''')
+            groups = cursor.fetchall()
 
-        for group in groups:
-            group_kb = types.InlineKeyboardButton(text=f'{group[0].upper()}', callback_data=f'my_group_{group[1]}')
-            form.groups_keyboard.add(group_kb)
+            for group in groups:
+                group_kb = types.InlineKeyboardButton(text=f'{group[0].upper()}', callback_data=f'my_group_{group[1]}')
+                form.groups_keyboard.add(group_kb)
 
-        bot.send_message(message.chat.id, 'Выбери свою группу.\n'
-                                          'Если твоей группы нет в списке, значит староста не внес ее в реестр.'
-                                          'Обратись к старосте.', reply_markup=form.groups_keyboard)
+            bot.send_message(message.chat.id, 'Выбери свою группу.\n'
+                                              'Если твоей группы нет в списке, значит староста не внес ее в реестр.'
+                                              'Обратись к старосте.', reply_markup=form.groups_keyboard)
 
     except ValueError:
         bot.send_message(message.chat.id, 'Ошибка в параметрах, проверьте еще раз и попробуйте снова или '
