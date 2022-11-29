@@ -45,7 +45,7 @@ def send_group(message):
                                               'заполнив ее правильно. \nЕсли считаете, что '
                                               'заполнили все правильно, свяжитесь с администратором:\n'
                                               'https://t.me/nickishhh')
-            cursor.execute(f'''DELETE FROM TABLE forms WHERE user_id = {message.from_user.id}''')
+            cursor.execute(f'''DELETE FROM forms WHERE user_id = {message.from_user.id}''')
             db.commit()
         else:
             cursor.execute(f"""UPDATE forms SET age = {age} WHERE user_id = {message.from_user.id}""")
@@ -97,7 +97,7 @@ def send_sex(message):
         bot.register_callback_query_handler(send, send_age)
     else:
 
-        cursor.execute(f'''DELETE FROM TABLE forms WHERE user_id = {message.from_user.id}''')
+        cursor.execute(f'''DELETE FROM forms WHERE user_id = {message.from_user.id}''')
         db.commit()
 
         bot.send_message(message.chat.id, 'Максимальная блина имени - 100 символов. Начни заного.',
