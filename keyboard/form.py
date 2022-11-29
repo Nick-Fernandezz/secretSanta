@@ -9,5 +9,5 @@ male_kb = types.InlineKeyboardButton(text='Я парень', callback_data='sex_
 female_kb = types.InlineKeyboardButton(text='Я девушка', callback_data='sex_female')
 sex_keyboard.add(male_kb, female_kb)
 
-groups_keyboard = types.InlineKeyboardMarkup(row_width=3)
+
 

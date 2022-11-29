@@ -107,7 +107,7 @@ def send_status_head_group(callback):
     cursor.execute(f'''SELECT id FROM heads_groups WHERE user_id = {callback.from_user.id}''')
     group_id = cursor.fetchone()
     if group_id is not None:
-        cursor.execute(f'''SELECT COUNT(*) FROM forms WHERE group_user = {group_id}''')
+        cursor.execute(f'''SELECT COUNT(*) FROM forms WHERE group_user = {group_id[0]}''')
         count_users = cursor.fetchone()
 
         cursor.execute(f'''SELECT id, group_name, status FROM students_group WHERE id = {group_id}''')

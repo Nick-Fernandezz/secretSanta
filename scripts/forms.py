@@ -39,8 +39,9 @@ def send_description(callback):
 def send_group(message):
     try:
         age = int(message.text)
-        if age > 100:
-            bot.send_message(message.chat.id, 'Вы указали слишком большой возраст. Создайте анкету заного, '
+        if 100 <= age < 0:
+            bot.send_message(message.chat.id, 'Вы указали слишком большой или отрицательный возраст. Создайте анкету '
+                                              'заного, '
                                               'заполнив ее правильно. \nЕсли считаете, что '
                                               'заполнили все правильно, свяжитесь с администратором:\n'
                                               'https://t.me/nickishhh')
@@ -53,13 +54,15 @@ def send_group(message):
             cursor.execute('''SELECT group_name, id FROM students_group WHERE status = True''')
             groups = cursor.fetchall()
 
+            groups_keyboard = types.InlineKeyboardMarkup()
+
             for group in groups:
                 group_kb = types.InlineKeyboardButton(text=f'{group[0].upper()}', callback_data=f'my_group_{group[1]}')
-                form.groups_keyboard.add(group_kb)
+                groups_keyboard.add(group_kb)
 
             bot.send_message(message.chat.id, 'Выбери свою группу.\n'
                                               'Если твоей группы нет в списке, значит староста не внес ее в реестр.'
-                                              'Обратись к старосте.', reply_markup=form.groups_keyboard)
+                                              'Обратись к старосте.', reply_markup=groups_keyboard)
 
     except ValueError:
         bot.send_message(message.chat.id, 'Ошибка в параметрах, проверьте еще раз и попробуйте снова или '
@@ -83,13 +86,22 @@ def send_age(callback):
 
 
 def send_sex(message):
-    cursor.execute("""INSERT INTO forms(user_id, username,name_user) VALUES (%s, %s, %s)""",
-                   (message.from_user.id, message.from_user.username, message.text))
-    db.commit()
 
-    send = bot.send_message(message.chat.id, 'Выберите свой пол', reply_markup=form.sex_keyboard)
+    if len(message.text) <= 100:
+        cursor.execute("""INSERT INTO forms(user_id, username,name_user) VALUES (%s, %s, %s)""",
+                       (message.from_user.id, message.from_user.username, message.text))
+        db.commit()
 
-    bot.register_callback_query_handler(send, send_age)
+        send = bot.send_message(message.chat.id, 'Выберите свой пол', reply_markup=form.sex_keyboard)
+
+        bot.register_callback_query_handler(send, send_age)
+    else:
+
+        cursor.execute(f'''DELETE FROM TABLE forms WHERE user_id = {message.from_user.id}''')
+        db.commit()
+
+        bot.send_message(message.chat.id, 'Максимальная блина имени - 100 символов. Начни заного.',
+                         reply_markup=form.go_to_next_keyboard)
 
 
 def send_name(callback):
